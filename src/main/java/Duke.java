@@ -47,13 +47,43 @@ public class Duke {
                 Task task;
 
                 if (commands[0].equals("todo")) {
-                    task = new Todo(taskName);
+                    if (commands.length == 1) {
+                        System.out.println("     OOPS!!! The description of a todo cannot be empty.");
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println();
+                        command = scanner.nextLine();
+                        continue;
+                    } else {
+                        task = new Todo(taskName);
+                    }
                 } else if (commands[0].equals("deadline")) {
-                    String[] details = taskName.split(" /by ");
-                    task = new Deadline(details[0], details[1]);
+                    if (commands.length == 1) {
+                        System.out.println("     OOPS!!! The description of a deadline cannot be empty.");
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println();
+                        command = scanner.nextLine();
+                        continue;
+                    } else {
+                        String[] details = taskName.split(" /by ");
+                        task = new Deadline(details[0], details[1]);
+                    }
+                } else if (commands[0].equals("event")){
+                    if (commands.length == 1) {
+                        System.out.println("     OOPS!!! The description of an event cannot be empty.");
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println();
+                        command = scanner.nextLine();
+                        continue;
+                    } else {
+                        String[] details = taskName.split(" /at ");
+                        task = new Event(details[0], details[1]);
+                    }
                 } else {
-                    String[] details = taskName.split(" /at ");
-                    task = new Event(details[0], details[1]);
+                    System.out.println("     OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println();
+                    command = scanner.nextLine();
+                    continue;
                 }
 
                 list.add(task);
