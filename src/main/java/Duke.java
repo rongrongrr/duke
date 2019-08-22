@@ -35,6 +35,13 @@ public class Duke {
                     System.out.println(String.format("     %d.%s", i + 1, list.get(i).toString()));
                 }
 
+            } else if (commands[0].equals("delete")) {
+                System.out.println("     Noted. I've removed this task:");
+                int index = Integer.valueOf(commands[1]) - 1;
+                System.out.println("       " + list.get(index).toString());
+                list.remove(index);
+                System.out.println(String.format("     Now you have %d tasks in the list.", list.size()));
+
             } else {
                 String taskName = "";
                 for (int j = 1; j < commands.length; j++) {
