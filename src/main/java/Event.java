@@ -8,6 +8,10 @@ public class Event extends Task {
         this.at = at;
     }
 
+    public String getAt() {
+        return at;
+    }
+
     public void mark() {
         super.mark();
     }

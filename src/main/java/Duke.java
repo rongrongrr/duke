@@ -1,9 +1,13 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 
 public class Duke {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -19,6 +23,29 @@ public class Duke {
 
         String command = scanner.nextLine();
         ArrayList<Task> list = new ArrayList<>();
+
+        FileReader reader = new FileReader("/Users/jingrong/duke/duke.txt");
+        BufferedReader bufferedReader = new BufferedReader(reader);
+
+        String line = bufferedReader.readLine();
+        while (! (line == null)) {
+            String[] task = line.split(" , ");
+            Task tsk;
+            if (task[0].equals("T")) {
+                tsk = new Todo(task[2]);
+            } else if (task[0].equals("D")) {
+                tsk = new Deadline(task[2], task[3]);
+            } else {
+                tsk = new Event(task[2], task[3]);
+            }
+
+            if (task[1].equals("y")) {
+                tsk.mark();
+            }
+
+            list.add(tsk);
+            line = bufferedReader.readLine();
+        }
 
         while(!command.equals("bye")) {
             System.out.println("    ____________________________________________________________");
@@ -107,6 +134,20 @@ public class Duke {
             System.out.println();
             command = scanner.nextLine();
         }
+
+        FileWriter writer = new FileWriter("/Users/jingrong/duke/duke.txt", false);
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+        for (Task item : list) {
+            if (item instanceof Todo) {
+                bufferedWriter.write(String.format("T , %s , %s", item.getMark(), item.getName()));
+            } else if (item instanceof Deadline) {
+                bufferedWriter.write(String.format("D , %s , %s , %s", item.getMark(), item.getName(), ((Deadline) item).getBy()));
+            } else {
+                bufferedWriter.write(String.format("D , %s , %s , %s", item.getMark(), item.getName(), ((Event) item).getAt()));
+            }
+            bufferedWriter.newLine();
+        }
+        bufferedWriter.close();
 
         System.out.println("    ____________________________________________________________");
         System.out.println("     Bye. Hope to see you again soon!");

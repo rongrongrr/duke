@@ -7,6 +7,18 @@ public abstract class Task {
         this.done = false;
     }
 
+    public String getMark() {
+        if (done) {
+            return "y";
+        } else {
+            return "n";
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void mark() {
         done = true;
     }
