@@ -20,7 +20,7 @@ public class TaskList {
     }
 
     public void done(int index) {
-        tasks.get(index).mark();
+        tasks.get(index).setDone();
     }
 
     public ArrayList<Task> getTasks() {

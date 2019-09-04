@@ -1,6 +1,5 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Duke {
 
@@ -42,6 +41,6 @@ public class Duke {
     }
 
     public static void main(String[] args) {
-            new Duke("/Users/jingrong/duke/duke.txt").run();
+        new Duke("/Users/jingrong/duke/duke.txt").run();
     }
 }

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 public class Storage {
@@ -33,7 +34,7 @@ public class Storage {
             }
 
             if (words[1].equals("y")) {
-                task.mark();
+                task.setDone();
             }
 
             tasks.add(task);
@@ -46,13 +47,16 @@ public class Storage {
     public void store() throws IOException {
         FileWriter writer = new FileWriter(this.filePath, false);
         BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
         for (Task item : tasks) {
             if (item instanceof Todo) {
-                bufferedWriter.write(String.format("T , %s , %s", item.getMark(), item.getName()));
+                bufferedWriter.write(String.format("T , %s , %s", item.isDone(), item.getName()));
             } else if (item instanceof Deadline) {
-                bufferedWriter.write(String.format("D , %s , %s , %s", item.getMark(), item.getName(), ((Deadline) item).getBy()));
+                bufferedWriter.write(String.format("D , %s , %s , %s", item.isDone(), item.getName(), ((Deadline) item)
+                        .getBy()));
             } else {
-                bufferedWriter.write(String.format("D , %s , %s , %s", item.getMark(), item.getName(), ((Event) item).getAt()));
+                bufferedWriter.write(String.format("D , %s , %s , %s", item.isDone(), item.getName(), ((Event) item)
+                        .getAt()));
             }
             bufferedWriter.newLine();
         }
