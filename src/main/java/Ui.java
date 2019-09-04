@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Ui {
     Scanner scanner;
@@ -56,6 +57,19 @@ public class Ui {
                 tasks.done(index);
                 System.out.println("     Nice! I've marked this task as done:");
                 System.out.println("       " + t.toString());
+                showLine();
+                System.out.println();
+            } else if (commands[0].equals("find")) {
+                ArrayList<Task> results = new ArrayList<>();
+                for (Task task : tasks.getTasks()) {
+                    if (task.getName().contains(commands[1])) {
+                        results.add(task);
+                    }
+                }
+                System.out.println("     Here are the matching tasks in your list:");
+                for (int i = 0; i < results.size(); i++) {
+                    System.out.println(String.format("     %d.%s", i + 1, results.get(i).toString()));
+                }
                 showLine();
                 System.out.println();
             } else {
