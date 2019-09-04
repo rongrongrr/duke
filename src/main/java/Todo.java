@@ -6,8 +6,16 @@ public class Todo extends Task {
         super(name);
     }
 
-    public void mark() {
-        super.mark();
+    public String getName() {
+        return super.getName();
+    }
+
+    public String isDone() {
+        return super.isDone();
+    }
+
+    public void setDone() {
+        super.setDone();
     }
 
     @Override

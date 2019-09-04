@@ -33,6 +33,7 @@ public class Ui {
         showLine();
         if (command.equals("bye")) {
             isExit = true;
+
         } else if (command.equals("list")) {
             System.out.println("     Here are the tasks in your list:");
             for (int i = 0; i < tasks.getTasks().size(); i++) {
@@ -40,6 +41,7 @@ public class Ui {
             }
             showLine();
             System.out.println();
+
         } else {
             String[] commands = parser.parse(command);
             if (commands[0].equals("delete")) {
@@ -50,6 +52,7 @@ public class Ui {
                 System.out.println(String.format("     Now you have %d tasks in the list.", tasks.getTasks().size()));
                 showLine();
                 System.out.println();
+
             } else if (commands[0].equals("done")) {
                 int index = Integer.valueOf(commands[1]) - 1;
                 Task t = tasks.getTasks().get(index);
@@ -58,6 +61,7 @@ public class Ui {
                 System.out.println("       " + t.toString());
                 showLine();
                 System.out.println();
+
             } else {
                 String taskName = "";
                 for (int j = 1; j < commands.length; j++) {
@@ -67,26 +71,32 @@ public class Ui {
                         taskName += commands[j];
                     }
                 }
-                Task task;
 
+                Task task;
                 if (commands[0].equals("todo") || commands[0].equals("deadline") || commands[0].equals("event")) {
                     if (commands.length == 1) {
                         if (commands[0].equals("event")) {
                             System.out.println("     OOPS!!! The description of an event cannot be empty.");
                         } else {
-                            System.out.println(String.format("     OOPS!!! The description of a %s cannot be empty.", commands[0]));
+                            System.out.println(String.format("     OOPS!!! The description of a %s cannot be empty.",
+                                    commands[0]));
+
                         }
                         showLine();
                         System.out.println();
+
                     } else {
                         if (commands[0].equals("todo")) {
                             task = new Todo(taskName);
+
                         } else if (commands[0].equals("deadline")) {
                             String[] details = taskName.split(" /by ");
                             task = new Deadline(details[0], details[1]);
+
                         } else {
                             String[] details = taskName.split(" /at ");
                             task = new Event(details[0], details[1]);
+
                         }
 
                         tasks.add(task);
@@ -94,8 +104,11 @@ public class Ui {
                         System.out.println("       " + task.toString());
                         if (tasks.getTasks().size() == 1) {
                             System.out.println("     Now you have 1 task in the list.");
+
                         } else {
-                            System.out.println(String.format("     Now you have %d tasks in the list.", tasks.getTasks().size()));
+                            System.out.println(String.format("     Now you have %d tasks in the list.", tasks.getTasks()
+                                    .size()));
+
                         }
                         showLine();
                         System.out.println();
@@ -104,6 +117,7 @@ public class Ui {
                     System.out.println("     OOPS!!! I'm sorry, but I don't know what that means :-(");
                     showLine();
                     System.out.println();
+
                 }
             }
         }

@@ -1,13 +1,13 @@
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 
 public class Deadline extends Task {
     private String name;
     private boolean done;
     private Date by;
-
-    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy kkmm");
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy kkmm");
 
     public Deadline(String name, String by) {
         super(name);
@@ -18,12 +18,20 @@ public class Deadline extends Task {
         }
     }
 
+    public String getName() {
+        return super.getName();
+    }
+
+    public String isDone() {
+        return super.isDone();
+    }
+
     public String getBy() {
         return format.format(by);
     }
 
-    public void mark() {
-        super.mark();
+    public void setDone() {
+        super.setDone();
     }
 
     @Override

@@ -1,14 +1,14 @@
 public abstract class Task {
     private String name;
-    private boolean done;
+    private boolean isDone;
 
     public Task(String name) {
         this.name = name;
-        this.done = false;
+        this.isDone = false;
     }
 
-    public String getMark() {
-        if (done) {
+    public String isDone() {
+        if (isDone) {
             return "y";
         } else {
             return "n";
@@ -19,19 +19,12 @@ public abstract class Task {
         return name;
     }
 
-    public void mark() {
-        done = true;
+    public void setDone() {
+        isDone = true;
     }
 
     @Override
     public String toString() {
-        String mark;
-        if (done) {
-            mark = "y";
-        } else {
-            mark = "n";
-        }
-
-        return String.format("[%s] %s", mark, name);
+        return String.format("[%s] %s", isDone(), name);
     }
 }
