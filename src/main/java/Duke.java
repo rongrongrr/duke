@@ -1,12 +1,20 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Encapsulates a Duke object for the execution of the Duke program.
+ */
 public class Duke {
 
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Creates a Duke object tagged with ui, storage and list of tasks.
+     *
+     * @param filePath path of file to be used as storage.
+     */
     public Duke(String filePath) {
         ui = new Ui();
         try {
@@ -23,6 +31,9 @@ public class Duke {
         }
     }
 
+    /**
+     * Runs the Duke program.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;

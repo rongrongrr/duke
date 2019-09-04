@@ -1,21 +1,33 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Encapsulates a Ui to deal with user interactions.
+ */
 public class Ui {
     Scanner scanner;
     private boolean isExit;
     private Parser parser;
 
+    /**
+     * Creates a Ui object tagged with scanner, whether the program is exited, and parser.
+     */
     public Ui() {
         scanner = new Scanner(System.in);
         isExit = false;
         parser = new Parser();
     }
 
+    /**
+     * Returns a horizontal line for formatting purposes.
+     */
     public void showLine() {
         System.out.println("    ____________________________________________________________");
     }
 
+    /**
+     * Displays a welcome message.
+     */
     public void showWelcome() {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -29,6 +41,11 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Executes the given user commands.
+     *
+     * @param tasks Tasks to mark as completed, add to, delete, or view based on user commands.
+     */
     public void execute(TaskList tasks) {
         String command = scanner.nextLine();
         showLine();
@@ -138,6 +155,11 @@ public class Ui {
         }
     }
 
+    /**
+     * Displays error messages.
+     *
+     * @param error Name of error.
+     */
     public void showError(String error) {
         if (error.equals("load")) {
             System.out.println("     OOPS!!! The list of tasks cannot be loaded.");
@@ -148,10 +170,18 @@ public class Ui {
         }
     }
 
+    /**
+     * Returns if program is to be exited.
+     *
+     * @return Boolean depending on whether program is to be exited.
+     */
     public boolean isExit() {
         return isExit;
     }
 
+    /**
+     * Shows exit message for stopping program.
+     */
     public void exit() {
         System.out.println("     Bye. Hope to see you again soon!");
         showLine();
