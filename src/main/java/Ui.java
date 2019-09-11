@@ -8,6 +8,7 @@ public class Ui {
     Scanner scanner;
     private boolean isExit;
     private Parser parser;
+    private StringBuilder string;
 
     /**
      * Creates a Ui object tagged with scanner, whether the program is exited, and parser.
@@ -19,26 +20,10 @@ public class Ui {
     }
 
     /**
-     * Returns a horizontal line for formatting purposes.
-     */
-    public void showLine() {
-        System.out.println("    ____________________________________________________________");
-    }
-
-    /**
      * Displays a welcome message.
      */
-    public void showWelcome() {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-        showLine();
-        System.out.println("     Hello! I'm Duke\n     What can I do for you?");
-        showLine();
-        System.out.println();
+    public String showWelcome() {
+        return "Hello! I'm Duke\nWhat can I do for you?";
     }
 
     /**
@@ -46,39 +31,32 @@ public class Ui {
      *
      * @param tasks Tasks to mark as completed, add to, delete, or view based on user commands.
      */
-    public void execute(TaskList tasks) {
-        String command = scanner.nextLine();
-        showLine();
+    public String execute(String command, TaskList tasks) {
+        string = new StringBuilder();
         if (command.equals("bye")) {
             isExit = true;
 
         } else if (command.equals("list")) {
-            System.out.println("     Here are the tasks in your list:");
+            string.append("Here are the tasks in your list:\n");
             for (int i = 0; i < tasks.getTasks().size(); i++) {
-                System.out.println(String.format("     %d.%s", i + 1, tasks.getTasks().get(i).toString()));
+                string.append(String.format("     %d.%s\n", i + 1, tasks.getTasks().get(i).toString()));
             }
-            showLine();
-            System.out.println();
 
         } else {
             String[] commands = parser.parse(command);
             if (commands[0].equals("delete")) {
-                System.out.println("     Noted. I've removed this task:");
+                string.append("Noted. I've removed this task:\n");
                 int index = Integer.valueOf(commands[1]) - 1;
-                System.out.println("       " + tasks.getTasks().get(index).toString());
+                string.append("       " + tasks.getTasks().get(index).toString() + "\n");
                 tasks.delete(index);
-                System.out.println(String.format("     Now you have %d tasks in the list.", tasks.getTasks().size()));
-                showLine();
-                System.out.println();
+                string.append(String.format("Now you have %d tasks in the list.\n", tasks.getTasks().size()));
 
             } else if (commands[0].equals("done")) {
                 int index = Integer.valueOf(commands[1]) - 1;
                 Task t = tasks.getTasks().get(index);
                 tasks.done(index);
-                System.out.println("     Nice! I've marked this task as done:");
-                System.out.println("       " + t.toString());
-                showLine();
-                System.out.println();
+                string.append("Nice! I've marked this task as done:\n");
+                string.append("       " + t.toString() + "\n");
 
             } else if (commands[0].equals("find")) {
                 ArrayList<Task> results = new ArrayList<>();
@@ -87,12 +65,10 @@ public class Ui {
                         results.add(task);
                     }
                 }
-                System.out.println("     Here are the matching tasks in your list:");
+                string.append("Here are the matching tasks in your list:\n");
                 for (int i = 0; i < results.size(); i++) {
-                    System.out.println(String.format("     %d.%s", i + 1, results.get(i).toString()));
+                    string.append(String.format("     %d.%s\n", i + 1, results.get(i).toString()));
                 }
-                showLine();
-                System.out.println();
 
             } else {
                 String taskName = "";
@@ -108,14 +84,11 @@ public class Ui {
                 if (commands[0].equals("todo") || commands[0].equals("deadline") || commands[0].equals("event")) {
                     if (commands.length == 1) {
                         if (commands[0].equals("event")) {
-                            System.out.println("     OOPS!!! The description of an event cannot be empty.");
+                            string.append("OOPS!!! The description of an event cannot be empty.\n");
                         } else {
-                            System.out.println(String.format("     OOPS!!! The description of a %s cannot be empty.",
+                            string.append(String.format("OOPS!!! The description of a %s cannot be empty.\n",
                                     commands[0]));
-
                         }
-                        showLine();
-                        System.out.println();
 
                     } else {
                         if (commands[0].equals("todo")) {
@@ -132,27 +105,25 @@ public class Ui {
                         }
 
                         tasks.add(task);
-                        System.out.println("     Got it. I've added this task:");
-                        System.out.println("       " + task.toString());
+                        string.append("Got it. I've added this task:\n");
+                        string.append("       " + task.toString() + "\n");
                         if (tasks.getTasks().size() == 1) {
-                            System.out.println("     Now you have 1 task in the list.");
+                            string.append("Now you have 1 task in the list.\n");
 
                         } else {
-                            System.out.println(String.format("     Now you have %d tasks in the list.", tasks.getTasks()
+                            string.append(String.format("Now you have %d tasks in the list.\n", tasks.getTasks()
                                     .size()));
 
                         }
-                        showLine();
-                        System.out.println();
                     }
+
                 } else {
-                    System.out.println("     OOPS!!! I'm sorry, but I don't know what that means :-(");
-                    showLine();
-                    System.out.println();
+                    string.append("OOPS!!! I'm sorry, but I don't know what that means :-(\n");
 
                 }
             }
         }
+        return string.toString();
     }
 
     /**
@@ -162,11 +133,11 @@ public class Ui {
      */
     public void showError(String error) {
         if (error.equals("load")) {
-            System.out.println("     OOPS!!! The list of tasks cannot be loaded.");
+            System.out.println("OOPS!!! The list of tasks cannot be loaded.");
         } else if (error.equals("filepath")) {
-            System.out.println("     OOPS!!! There is something wrong with the filepath.");
+            System.out.println("OOPS!!! There is something wrong with the filepath.");
         } else if (error.equals("store")) {
-            System.out.println("     OOPS!!! There is something wrong with the file.");
+            System.out.println("OOPS!!! There is something wrong with the file.");
         }
     }
 
@@ -182,8 +153,7 @@ public class Ui {
     /**
      * Shows exit message for stopping program.
      */
-    public void exit() {
-        System.out.println("     Bye. Hope to see you again soon!");
-        showLine();
+    public String exit() {
+        return "Bye. Hope to see you again soon!\n";
     }
 }
