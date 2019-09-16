@@ -33,32 +33,36 @@ public class Ui {
      */
     public String execute(String command, TaskList tasks) {
         string = new StringBuilder();
-        if (command.equals("bye")) {
+        switch (command) {
+        case "bye":
             isExit = true;
-
-        } else if (command.equals("list")) {
+            break;
+        case "list":
             string.append("Here are the tasks in your list:\n");
             for (int i = 0; i < tasks.getTasks().size(); i++) {
                 string.append(String.format("     %d.%s\n", i + 1, tasks.getTasks().get(i).toString()));
             }
-
-        } else {
+            break;
+        default:
             String[] commands = parser.parse(command);
-            if (commands[0].equals("delete")) {
+            String com = commands[0];
+            int index;
+            switch (com) {
+            case "delete":
                 string.append("Noted. I've removed this task:\n");
-                int index = Integer.valueOf(commands[1]) - 1;
+                index = Integer.valueOf(commands[1]) - 1;
                 string.append("       " + tasks.getTasks().get(index).toString() + "\n");
                 tasks.delete(index);
                 string.append(String.format("Now you have %d tasks in the list.\n", tasks.getTasks().size()));
-
-            } else if (commands[0].equals("done")) {
-                int index = Integer.valueOf(commands[1]) - 1;
+                break;
+            case "done":
+                index = Integer.valueOf(commands[1]) - 1;
                 Task t = tasks.getTasks().get(index);
                 tasks.done(index);
                 string.append("Nice! I've marked this task as done:\n");
                 string.append("       " + t.toString() + "\n");
-
-            } else if (commands[0].equals("find")) {
+                break;
+            case "find":
                 ArrayList<Task> results = new ArrayList<>();
                 for (Task task : tasks.getTasks()) {
                     if (task.getName().contains(commands[1])) {
@@ -69,8 +73,8 @@ public class Ui {
                 for (int i = 0; i < results.size(); i++) {
                     string.append(String.format("     %d.%s\n", i + 1, results.get(i).toString()));
                 }
-
-            } else {
+                break;
+            default:
                 String taskName = "";
                 for (int j = 1; j < commands.length; j++) {
                     if (j != commands.length - 1) {
@@ -119,7 +123,6 @@ public class Ui {
 
                 } else {
                     string.append("OOPS!!! I'm sorry, but I don't know what that means :-(\n");
-
                 }
             }
         }
