@@ -50,15 +50,22 @@ public class Ui {
             switch (com) {
             case "delete":
                 string.append("Noted. I've removed this task:\n");
+
                 index = Integer.valueOf(commands[1]) - 1;
-                string.append("       " + tasks.getTasks().get(index).toString() + "\n");
+                Task deletedTask = tasks.getTasks().get(index);
+                string.append("       " + deletedTask.toString() + "\n");
                 tasks.delete(index);
+                Task checkDeletedTask = tasks.getTasks().get(index);
+                assert ! deletedTask.toString().equals(checkDeletedTask.toString()) :
+                        "the task at this index should have been deleted";
                 string.append(String.format("Now you have %d tasks in the list.\n", tasks.getTasks().size()));
                 break;
             case "done":
                 index = Integer.valueOf(commands[1]) - 1;
                 Task t = tasks.getTasks().get(index);
                 tasks.done(index);
+                String isDone = t.isDone();
+                assert isDone.equals("y") : "the task should be marked done";
                 string.append("Nice! I've marked this task as done:\n");
                 string.append("       " + t.toString() + "\n");
                 break;
@@ -108,6 +115,7 @@ public class Ui {
 
                         }
 
+                        int taskSize = tasks.getTasks().size();
                         tasks.add(task);
                         string.append("Got it. I've added this task:\n");
                         string.append("       " + task.toString() + "\n");
@@ -119,6 +127,9 @@ public class Ui {
                                     .size()));
 
                         }
+
+                        int newTaskSize = tasks.getTasks().size();
+                        assert newTaskSize == taskSize + 1 : "the list should have increased by 1 task";
                     }
 
                 } else {
