@@ -9,6 +9,7 @@ public class Ui {
     private boolean isExit;
     private Parser parser;
     private StringBuilder string;
+    private TaskList undoneTasks;
 
     /**
      * Creates a Ui object tagged with scanner, whether the program is exited, and parser.
@@ -17,6 +18,7 @@ public class Ui {
         scanner = new Scanner(System.in);
         isExit = false;
         parser = new Parser();
+        undoneTasks = new TaskList();
     }
 
     /**
@@ -33,12 +35,43 @@ public class Ui {
      */
     public String execute(String command, TaskList tasks) {
         string = new StringBuilder();
+        if (!command.equals("undo")) {
+            undoneTasks = new TaskList();
+            for (Task task : tasks.getTasks()) {
+                Task addTask;
+                if (task instanceof Todo) {
+                    addTask = new Todo(task.getName());
+                } else if (task instanceof Event) {
+                    addTask = new Event(task.getName(), ((Event) task).getAt());
+                } else {
+                    addTask = new Deadline(task.getName(), ((Deadline) task).getBy());
+                }
+                if (task.isDone().equals("y")) {
+                    addTask.setDone();
+                }
+                undoneTasks.add(addTask);
+            }
+        }
+
         switch (command) {
         case "bye":
             isExit = true;
             break;
         case "list":
             string.append("Here are the tasks in your list:\n");
+            for (int i = 0; i < tasks.getTasks().size(); i++) {
+                string.append(String.format("     %d.%s\n", i + 1, tasks.getTasks().get(i).toString()));
+            }
+            break;
+        case "undo": //need to reload old file
+            string.append("Noted. Your previous command has been undone. Here are the tasks in your list:\n");
+            while(!tasks.getTasks().isEmpty()) {
+                tasks.delete(0);
+            }
+            for (Task task : undoneTasks.getTasks()) {
+                tasks.add(task);
+            }
+
             for (int i = 0; i < tasks.getTasks().size(); i++) {
                 string.append(String.format("     %d.%s\n", i + 1, tasks.getTasks().get(i).toString()));
             }
@@ -50,14 +83,15 @@ public class Ui {
             switch (com) {
             case "delete":
                 string.append("Noted. I've removed this task:\n");
-
                 index = Integer.valueOf(commands[1]) - 1;
                 Task deletedTask = tasks.getTasks().get(index);
                 string.append("       " + deletedTask.toString() + "\n");
                 tasks.delete(index);
-                Task checkDeletedTask = tasks.getTasks().get(index);
-                assert ! deletedTask.toString().equals(checkDeletedTask.toString()) :
-                        "the task at this index should have been deleted";
+                if (!tasks.getTasks().isEmpty()) {
+                    Task checkDeletedTask = tasks.getTasks().get(index);
+                    assert !deletedTask.toString().equals(checkDeletedTask.toString()) :
+                            "the task at this index should have been deleted";
+                }
                 string.append(String.format("Now you have %d tasks in the list.\n", tasks.getTasks().size()));
                 break;
             case "done":
