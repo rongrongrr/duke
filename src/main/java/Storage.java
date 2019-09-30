@@ -1,10 +1,4 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
+import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -12,19 +6,25 @@ import java.util.ArrayList;
  * Encapsulates a Storage object to load and save tasks from and to file.
  */
 public class Storage {
-    private String filePath;
+    private static String filePath = "../duke/data/duke.txt";
+    private static String dirPath = "../duke/data";
     private FileReader reader;
     private BufferedReader bufferedReader;
     private ArrayList<Task> tasks;
+    public static boolean isInitiated = false;
 
     /**
      * Creates a Storage object tagged with path of file, file reader, buffered reader, and list of tasks.
      *
-     * @param filePath path of file for loading and saving of tasks.
      * @throws FileNotFoundException If file is not found at specified location.
      */
-    public Storage(String filePath) throws FileNotFoundException {
-        this.filePath = filePath;
+    public Storage() throws FileNotFoundException, IOException{
+        File duke = new File(filePath);
+        File dukeDir = new File(dirPath);
+        if (!duke.isFile()) {
+            dukeDir.mkdir();
+            duke.createNewFile();
+        }
         this.reader = new FileReader(this.filePath);
         this.bufferedReader = new BufferedReader(reader);
         this.tasks = new ArrayList<>();
@@ -66,7 +66,8 @@ public class Storage {
      * @throws IOException If tasks failed to be stored.
      */
     public void store() throws IOException {
-        FileWriter writer = new FileWriter(this.filePath, false);
+        FileWriter writer = new FileWriter(filePath, false);
+        //FileWriter writer = new FileWriter(this.getClass().getResource("../duke/data/duke.txt").getPath());
         BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
         for (Task item : tasks) {

@@ -1,3 +1,0 @@
-T , n , CS2100 revision
-D , n , CS2103 iP , 30/09/2019 2359
-D , n , Celebrate end of mid-terms , 05/10/2019 1300

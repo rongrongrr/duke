@@ -1,0 +1,3 @@
+D , y , CS2103 iP , 30/09/2019 2359
+D , y , Celebrate end of mid-terms , 05/10/2019 1300
+T , n , test

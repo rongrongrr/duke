@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -29,24 +30,22 @@ public class Duke extends Application {
     private Image user = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
     private Image duke = new Image(this.getClass().getResourceAsStream("/images/Duke.jpg"));
     private boolean isExit;
-
-    public Duke() {
-
-    }
+    private InputStream inputStream;
 
     /**
      * Creates a Duke object tagged with ui, storage and list of tasks.
      *
-     * @param filePath path of file to be used as storage.
      */
-    public Duke(String filePath) {
+    public Duke() {
         ui = new Ui();
         isExit = false;
         try {
-            storage = new Storage(filePath);
+            storage = new Storage();
         } catch (FileNotFoundException e) {
             ui.showError("filepath");
             return;
+        } catch (IOException e) {
+            ui.showError("filepath");
         }
         try {
             tasks = new TaskList(storage.load());

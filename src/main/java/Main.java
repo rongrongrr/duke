@@ -1,3 +1,5 @@
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +12,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Duke duke = new Duke("/Users/jingrong/duke/duke.txt");
+    //private Duke duke = new Duke(Main.class.getResourceAsStream("/data/duke.txt"));
+    private Duke duke = new Duke();
 
     @Override
     public void start(Stage stage) {
@@ -21,7 +24,6 @@ public class Main extends Application {
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setDuke(duke);
             stage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
