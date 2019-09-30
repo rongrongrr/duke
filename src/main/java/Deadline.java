@@ -1,6 +1,5 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 
 /**
@@ -18,13 +17,9 @@ public class Deadline extends Task {
      * @param name Name of event.
      * @param by Deadline by when task is due.
      */
-    public Deadline(String name, String by) {
+    public Deadline(String name, String by) throws ParseException {
         super(name);
-        try {
-            this.by = format.parse(by);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.by = format.parse(by);
     }
 
     /**

@@ -18,13 +18,9 @@ public class Event extends Task {
      * @param name Name of event.
      * @param at Date of event.
      */
-    public Event(String name, String at) {
+    public Event(String name, String at) throws ParseException {
         super(name);
-        try {
-            this.at = format.parse(at);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.at = format.parse(at);
     }
 
     public String getName() {

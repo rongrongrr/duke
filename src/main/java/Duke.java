@@ -1,6 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.text.ParseException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -39,7 +39,6 @@ public class Duke extends Application {
      *
      * @param filePath path of file to be used as storage.
      */
-
     public Duke(String filePath) {
         ui = new Ui();
         isExit = false;
@@ -54,6 +53,8 @@ public class Duke extends Application {
         } catch (IOException e) {
             ui.showError("load");
             tasks = new TaskList();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
@@ -61,7 +62,12 @@ public class Duke extends Application {
      * Runs the Duke program.
      */
     public String run(String command) {
-        String message = ui.execute(command, tasks);
+        String message = "";
+        try {
+            message = ui.execute(command, tasks);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         isExit = ui.isExit();
         if (isExit) {
             try {
@@ -172,11 +178,11 @@ public class Duke extends Application {
     }
 
     /**
-     * You should have your own function to generate a response to user input.
-     * Replace this stub with your completed method.
+     * Returns formatted string input.
+     *
+     * @return String input in the format of "Duke heard: *input*"
      */
     public String getResponse(String input) {
-        //new Duke("/Users/jingrong/duke/duke.txt").run();
         return "Duke heard: " + input;
     }
 }

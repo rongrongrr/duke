@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -35,7 +36,7 @@ public class Storage {
      * @return ArrayList of tasks.
      * @throws IOException If tasks failed to be retrieved.
      */
-    public ArrayList<Task> load() throws IOException {
+    public ArrayList<Task> load() throws IOException, ParseException {
         String line = bufferedReader.readLine();
         while (! (line == null)) {
             String[] words = line.split(" , ");
